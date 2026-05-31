@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShiroManga-L - Aplikasi Baca Manga Terbaik 2026</title>
+<link rel="icon" type="image/png" href="icon.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800;900&family=Rajdhani:wght@400;600;700&family=Noto+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c14;
+    --bg2: #0f1120;
+    --surface: #141726;
+    --surface2: #1a1f33;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8eaf6;
+    --text2: #9aa0c4;
+    --text3: #5c6490;
+    --accent-blue: #3b82f6;
+    --accent-red: #ef4444;
+    --accent-pink: #ec4899;
+    --accent-cyan: #22d3ee;
+    --gradient-hero: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+    --glow-blue: 0 0 40px rgba(59,130,246,0.3);
+    --glow-red: 0 0 40px rgba(239,68,68,0.3);
+    --card-bg: #141726;
+    --nav-bg: rgba(10,12,20,0.85);
+    --code-bg: rgba(255,255,255,0.03);
+    --scrollbar: #1a1f33;
+    --btn-primary-bg: #3b82f6;
+    --btn-primary-hover: #2563eb;
+    --badge-bg: rgba(59,130,246,0.15);
+  }
+
+  [data-theme="light"] {
+    --bg: #f0f2ff;
+    --bg2: #e8ecfa;
+    --surface: #ffffff;
+    --surface2: #f4f6ff;
+    --border: rgba(0,0,0,0.08);
+    --text: #1a1d2e;
+    --text2: #4a5080;
+    --text3: #8890b8;
+    --card-bg: #ffffff;
+    --nav-bg: rgba(240,242,255,0.9);
+    --code-bg: rgba(59,130,246,0.05);
+    --scrollbar: #d0d5f0;
+    --badge-bg: rgba(59,130,246,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans', sans-serif;
+    overflow-x: hidden;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--scrollbar); }
+  ::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 3px; }
+
+  /* ─── GRID BG ─── */
+  .grid-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.4s;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Exo 2', sans-serif; font-weight: 800;
+    font-size: 1.4rem; text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .logo-sl {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-red));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: 1.8rem;
+  }
+  .logo-name { color: var(--text); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text2); text-decoration: none; font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem; font-weight: 600; letter-spacing: 0.5px;
+    transition: color 0.2s; position: relative;
+  }
+  .nav-links a.active, .nav-links a:hover { color: var(--text); }
+  .nav-links a.active::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 2px; background: var(--accent-blue); border-radius: 2px;
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+
+  .btn-download {
+    background: linear-gradient(135deg, var(--accent-blue), #6366f1);
+    color: white; border: none; padding: 8px 20px;
+    border-radius: 8px; font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 4px 20px rgba(59,130,246,0.4);
+  }
+  .btn-download:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .theme-toggle {
+    width: 38px; height: 38px; border-radius: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; transition: background 0.2s, transform 0.2s; color: var(--text2);
+  }
+  .theme-toggle:hover { background: var(--surface); transform: rotate(15deg); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh; padding: 100px 4rem 4rem;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-left { flex: 1; z-index: 2; max-width: 560px; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--badge-bg); border: 1px solid rgba(59,130,246,0.3);
+    padding: 6px 14px; border-radius: 6px;
+    font-family: 'Rajdhani', sans-serif; font-size: 0.82rem;
+    font-weight: 600; color: var(--accent-blue);
+    letter-spacing: 1px; margin-bottom: 1.5rem;
+  }
+  .badge-dot { width: 6px; height: 6px; background: var(--accent-blue); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+  .logo-hero {
+    font-family: 'Exo 2', sans-serif; font-weight: 900;
+    font-size: clamp(4rem, 8vw, 6.5rem); line-height: 1;
+    margin-bottom: 0.5rem; display: block;
+    filter: drop-shadow(0 0 30px rgba(59,130,246,0.4));
+  }
+  .logo-hero .s { color: var(--accent-blue); }
+  .logo-hero .dot { color: var(--text); }
+  .logo-hero .l { color: var(--accent-red); }
+
+  .brand-name {
+    font-family: 'Exo 2', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    color: var(--text); margin-bottom: 0.3rem;
+  }
+
+  .tagline-sub {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 0.9rem; color: var(--accent-blue);
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .tagline-main {
+    font-family: 'Exo 2', sans-serif; font-weight: 900;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem); line-height: 1.15;
+    color: var(--text); margin-bottom: 1.2rem;
+  }
+  .tagline-main .highlight { color: var(--accent-red); }
+
+  .hero-desc {
+    color: var(--text2); font-size: 0.95rem; line-height: 1.7;
+    max-width: 440px; margin-bottom: 2rem;
+  }
+
+  .features-row {
+    display: flex; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap;
+  }
+  .feature-item {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    font-size: 0.78rem; color: var(--text2); font-weight: 500;
+    font-family: 'Rajdhani', sans-serif; letter-spacing: 0.3px;
+  }
+  .feature-icon {
+    width: 50px; height: 50px; border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+  }
+  .feature-item:hover .feature-icon {
+    transform: translateY(-4px) scale(1.05);
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.25), inset 0 1px 1px rgba(255,255,255,0.2);
+  }
+
+  .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent-blue), #6366f1);
+    color: white; border: none; padding: 13px 28px;
+    border-radius: 10px; font-family: 'Exo 2', sans-serif;
+    font-weight: 700; font-size: 0.95rem; cursor: pointer;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 6px 25px rgba(59,130,246,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 35px rgba(59,130,246,0.5); }
+  .btn-primary .arrow { transition: transform 0.2s; }
+  .btn-primary:hover .arrow { transform: translateX(4px); }
+
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    border: 1.5px solid var(--border); padding: 12px 24px;
+    border-radius: 10px; font-family: 'Exo 2', sans-serif;
+    font-weight: 600; font-size: 0.95rem; cursor: pointer;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent-blue); background: rgba(59,130,246,0.05); }
+
+  /* ─── HERO RIGHT ─── */
+  .hero-right {
+    flex: 1; position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 500px;
+  }
+
+  /* Code snippets */
+  .code-snippet {
+    position: absolute; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 18px; font-family: 'Courier New', monospace;
+    font-size: 0.72rem; color: var(--text3);
+    backdrop-filter: blur(10px); white-space: pre;
+    animation: float 6s ease-in-out infinite;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .code-snippet .kw { color: #818cf8; }
+  .code-snippet .fn { color: var(--accent-cyan); }
+  .code-snippet .str { color: #86efac; }
+  .code-snippet .val { color: var(--accent-red); }
+
+  .code-left { top: 5%; left: -5%; animation-delay: 0s; }
+  .code-right { top: 10%; right: -5%; animation-delay: 2s; }
+
+  @keyframes float {
+    0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)}
+  }
+
+  /* App mockup */
+  .mockup-wrapper {
+    position: relative; z-index: 3;
+    display: flex; justify-content: center; align-items: center;
+  }
+
+  .mockup-desktop {
+    width: 580px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+    backdrop-filter: blur(10px);
+  }
+  .mockup-titlebar {
+    height: 32px; background: var(--bg2);
+    display: flex; align-items: center; padding: 0 12px; gap: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot-r { width:10px;height:10px;border-radius:50%;background:#ef4444; }
+  .dot-y { width:10px;height:10px;border-radius:50%;background:#f59e0b; }
+  .dot-g { width:10px;height:10px;border-radius:50%;background:#22c55e; }
+
+  .mockup-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Mascot */
+  .mascot {
+    position: absolute; right: -10px; top: -60px; z-index: 12;
+    width: 200px; pointer-events: none;
+    animation: mascot-float 6s ease-in-out infinite;
+    filter: drop-shadow(0 10px 25px rgba(59,130,246,0.35));
+  }
+  @keyframes mascot-float {
+    0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-12px) rotate(1deg)}
+  }
+
+  /* Version badge */
+  .version-badge {
+    position: absolute; right: -60px; bottom: 60px; z-index: 10;
+    width: 80px; height: 80px; border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--accent-pink), var(--accent-blue), var(--accent-pink));
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 0 30px rgba(236,72,153,0.5);
+    animation: spin-slow 10s linear infinite;
+  }
+  .version-badge-inner {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: absolute;
+  }
+  .version-year { font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 1.1rem; color: var(--accent-pink); }
+  .version-text { font-size: 0.5rem; color: var(--text2); letter-spacing: 1px; }
+  @keyframes spin-slow { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+  /* ─── FOOTER BAR ─── */
+  .footer-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 12px 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: 'Rajdhani', sans-serif; font-size: 0.8rem;
+    color: var(--text3);
+  }
+  .footer-bar-left { display: flex; align-items: center; gap: 10px; }
+  .footer-tag { color: var(--accent-blue); font-weight: 700; }
+  .footer-bar-right { display: flex; align-items: center; gap: 8px; }
+  .footer-version {
+    background: rgba(59,130,246,0.12); color: var(--accent-blue);
+    padding: 3px 10px; border-radius: 20px; font-weight: 700; font-size: 0.75rem;
+  }
+  .footer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-cyan); animation: pulse 2s infinite; }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 80px 4rem;
+    position: relative; z-index: 2;
+  }
+
+  .section-title {
+    font-family: 'Exo 2', sans-serif; font-weight: 800;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    text-align: center; margin-bottom: 0.5rem;
+  }
+  .section-sub {
+    text-align: center; color: var(--text2); margin-bottom: 3rem;
+    font-size: 0.95rem;
+  }
+
+  /* FITUR */
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .feature-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.5rem;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+  .feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 12px 40px rgba(59,130,246,0.15);
+  }
+  .feature-card-icon {
+    font-size: 2rem; margin-bottom: 1rem;
+    width: 52px; height: 52px; border-radius: 12px;
+    background: rgba(59,130,246,0.1);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feature-card:nth-child(1) .feature-card-icon { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); box-shadow: 0 0 15px rgba(59, 130, 246, 0.1); }
+  .feature-card:nth-child(2) .feature-card-icon { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); box-shadow: 0 0 15px rgba(236, 72, 153, 0.1); }
+  .feature-card:nth-child(3) .feature-card-icon { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; box-shadow: 0 0 15px rgba(139, 92, 246, 0.1); }
+  .feature-card:nth-child(4) .feature-card-icon { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); box-shadow: 0 0 15px rgba(239, 68, 68, 0.1); }
+  .feature-card:nth-child(5) .feature-card-icon { background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); box-shadow: 0 0 15px rgba(34, 211, 238, 0.1); }
+  .feature-card:nth-child(6) .feature-card-icon { background: rgba(34, 197, 94, 0.15); color: #22c55e; box-shadow: 0 0 15px rgba(34, 197, 94, 0.1); }
+  .feature-card h3 {
+    font-family: 'Exo 2', sans-serif; font-weight: 700;
+    font-size: 1rem; margin-bottom: 0.5rem;
+  }
+  .feature-card p { color: var(--text2); font-size: 0.85rem; line-height: 1.6; }
+
+  /* KATEGORI */
+  .kategori-grid {
+    display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+  }
+  .kategori-pill {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(20, 23, 38, 0.6); border: 1px solid var(--border);
+    padding: 8px 18px; border-radius: 30px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600;
+    font-size: 0.9rem; cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+  }
+  .kategori-pill:hover {
+    background: rgba(59,130,246,0.15); border-color: var(--accent-blue);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
+    transform: translateY(-3px);
+  }
+
+  /* DOWNLOAD */
+  .download-section {
+    text-align: center; background: var(--surface2);
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .download-section .section-title span { 
+    background: var(--gradient-hero);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .download-grid {
+    display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .download-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem 2.5rem;
+    text-align: center; min-width: 200px;
+    transition: transform 0.25s, border-color 0.25s;
+    text-decoration: none; color: var(--text);
+  }
+  .download-card:hover { transform: translateY(-6px); border-color: var(--accent-blue); }
+  .download-card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .download-card h3 { font-family: 'Exo 2', sans-serif; font-weight: 700; margin-bottom: 0.3rem; }
+  .download-card p { color: var(--text2); font-size: 0.82rem; }
+
+  /* ─── GLOW ORBS ─── */
+  .orb {
+    position: fixed; border-radius: 50%;
+    filter: blur(80px); pointer-events: none; z-index: 0;
+    opacity: 0.15;
+  }
+  .orb-1 { width: 400px; height: 400px; background: var(--accent-blue); top: -100px; left: -100px; }
+  .orb-2 { width: 350px; height: 350px; background: var(--accent-pink); bottom: -100px; right: -100px; }
+
+  /* ─── MOBILE ─── */
+  .mobile-phone {
+    position: absolute; right: 20px; bottom: -30px;
+    width: 165px; border-radius: 20px; overflow: hidden;
+    border: 2px solid #1f2937;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.65);
+    background: var(--bg);
+    z-index: 4;
+    animation: float 6s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+  .mobile-status {
+    background: var(--bg2); padding: 6px 10px;
+    font-size: 0.55rem; color: var(--text2);
+    display: flex; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-body {
+    padding: 0;
+    overflow: hidden;
+  }
+  .mobile-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ─── UPDATE COVERS ─── */
+  .update-cover-wrapper {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+  .update-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .feature-card:hover .update-cover {
+    transform: scale(1.06);
+  }
+
+  /* ─── SCROLL ANIMATE ─── */
+  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 1200px) {
+    .mockup-desktop {
+      width: 460px; height: 310px;
+    }
+    .mascot {
+      width: 160px; top: -50px; right: 0px;
+    }
+    .mobile-phone {
+      width: 130px; right: 10px; bottom: -20px;
+    }
+    .hero-right {
+      min-height: 400px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hero { flex-direction: column; padding: 100px 2rem 6rem; text-align: center; }
+    .hero-right { display: none; }
+    .hero-left { max-width: 100%; }
+    .features-row { justify-content: center; }
+    .btn-group { justify-content: center; }
+    .nav-links { display: none; }
+    section { padding: 60px 2rem; }
+    .code-snippet { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="grid-bg"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="logo">
+    <span class="logo-sl">S.L</span>
+    <span class="logo-name">ShiroManga-L</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Beranda</a></li>
+    <li><a href="#fitur">Fitur</a></li>
+    <li><a href="#kategori">Kategori</a></li>
+    <li><a href="#update">Update</a></li>
+    <li><a href="#download">Download</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="btn-download">
+      ⬇ Download Now
+    </a>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀️</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      &lt;/&gt; APPS_NEW v1.2
+    </div>
+
+    <span class="logo-hero">
+      <span class="s">S</span><span class="dot">.</span><span class="l">L</span>
+    </span>
+
+    <div class="brand-name">ShiroManga-L</div>
+    <div class="tagline-sub">Aplikasi Baca Manga</div>
+    <h1 class="tagline-main">
+      Terbaik Dan<br>Terlengkap <span class="highlight">2026</span>
+    </h1>
+    <p class="hero-desc">
+      Nikmati ribuan koleksi manga terbaru, update cepat,
+      dan pengalaman membaca terbaik dengan tampilan modern dan fitur lengkap.
+    </p>
+
+    <div class="features-row">
+      <div class="feature-item">
+        <div class="feature-icon">🔄</div>
+        Update Cepat
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">❤️</div>
+        Favorit Tanpa Batas
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🌙</div>
+        Mode Gelap
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🚫</div>
+        Tanpa Iklan
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="btn-primary">
+        Mulai Membaca <span class="arrow">›</span>
+      </a>
+      <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="btn-secondary">
+        Pelajari Lebih Lanjut
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <!-- Code snippets -->
+    <div class="code-snippet code-left"><span class="kw">function</span> <span class="fn">ShiroManga</span>() {
+  <span class="kw">const</span> manga = <span class="kw">new</span> <span class="fn">App</span>();
+  manga.<span class="fn">read</span>();
+  manga.<span class="fn">favorite</span>();
+  manga.<span class="fn">explore</span>();
+}</div>
+
+    <div class="code-snippet code-right"><span class="kw">class</span> <span class="fn">MangaApp</span> {
+  <span class="fn">constructor</span>() {
+    <span class="kw">this</span>.fastUpdate = <span class="val">true</span>;
+    <span class="kw">this</span>.fullContent = <span class="val">true</span>;
+    <span class="kw">this</span>.year = <span class="val">2026</span>;
+  }
+}</div>
+
+    <!-- Mascot Image -->
+    <img src="icon.png" class="mascot" alt="ShiroManga Mascot">
+
+    <div class="mockup-wrapper">
+      <!-- Desktop mockup -->
+      <div class="mockup-desktop">
+        <div class="mockup-titlebar">
+          <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+          <div style="margin-left:auto;font-size:0.65rem;color:var(--text3);font-family:'Rajdhani',sans-serif;">ShiroManga-L</div>
+        </div>
+        <img src="landscape.jpeg" alt="ShiroManga Landscape" class="mockup-image">
+      </div>
+    </div>
+
+    <!-- Mobile phone mockup -->
+    <div class="mobile-phone">
+      <div class="mobile-status">
+        <span>9:45 PM</span>
+        <span>☁ 4G 79%</span>
+      </div>
+      <div class="mobile-body">
+        <img src="portrait.jpeg" alt="ShiroManga Portrait" class="mobile-image">
+      </div>
+    </div>
+
+    <!-- Version badge -->
+    <div class="version-badge" style="position:absolute;right:10px;top:20px;width:80px;height:80px;">
+      <div class="version-badge-inner">
+        <span class="version-year">2026</span>
+        <span class="version-text">VERSION</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FITUR -->
+<section id="fitur">
+  <div class="section-title fade-up">Fitur <span style="background:var(--gradient-hero);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Unggulan</span></div>
+  <div class="section-sub fade-up">Semua yang kamu butuhkan untuk pengalaman baca manga terbaik</div>
+  <div class="features-grid">
+    <div class="feature-card fade-up">
+      <div class="feature-card-icon">🔄</div>
+      <h3>Update Cepat</h3>
+      <p>Dapatkan chapter terbaru secepat mungkin, langsung dari sumbernya tanpa delay.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-card-icon">❤️</div>
+      <h3>Favorit Tanpa Batas</h3>
+      <p>Simpan manga favorit sebanyak yang kamu mau tanpa batasan apapun.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-card-icon">🌙</div>
+      <h3>Mode Gelap</h3>
+      <p>Tampilan dark mode yang nyaman di mata, cocok untuk baca di malam hari.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-card-icon">🚫</div>
+      <h3>Tanpa Iklan</h3>
+      <p>Nikmati pengalaman membaca tanpa gangguan iklan yang mengganggu.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-card-icon">🔍</div>
+      <h3>Pencarian Canggih</h3>
+      <p>Cari manga dengan mudah menggunakan fitur pencarian yang cepat dan akurat.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-card-icon">📱</div>
+      <h3>Multi Platform</h3>
+      <p>Tersedia untuk Android dan dapat diakses melalui berbagai perangkat.</p>
+    </div>
+  </div>
+</section>
+
+<!-- KATEGORI -->
+<section id="kategori" style="background:var(--surface2);border-top:1px solid var(--border);">
+  <div class="section-title fade-up">Koleksi <span style="color:var(--accent-blue)">Kategori</span></div>
+  <div class="section-sub fade-up">Ribuan manga dari berbagai genre siap menemani harimu</div>
+  <div class="kategori-grid">
+    <div class="kategori-pill fade-up">⚔️ Action</div>
+    <div class="kategori-pill fade-up">💕 Romance</div>
+    <div class="kategori-pill fade-up">😂 Comedy</div>
+    <div class="kategori-pill fade-up">🎭 Drama</div>
+    <div class="kategori-pill fade-up">🧙 Fantasy</div>
+    <div class="kategori-pill fade-up">🔮 Isekai</div>
+    <div class="kategori-pill fade-up">🏫 School Life</div>
+    <div class="kategori-pill fade-up">😱 Horror</div>
+    <div class="kategori-pill fade-up">🔪 Thriller</div>
+    <div class="kategori-pill fade-up">🤖 Sci-Fi</div>
+    <div class="kategori-pill fade-up">🥋 Martial Arts</div>
+    <div class="kategori-pill fade-up">🏃 Sports</div>
+    <div class="kategori-pill fade-up">📖 Doujin</div>
+    <div class="kategori-pill fade-up">👾 Siscon</div>
+    <div class="kategori-pill fade-up">💫 Slice of Life</div>
+    <div class="kategori-pill fade-up">🌸 Shoujo</div>
+    <div class="kategori-pill fade-up">⚡ Shounen</div>
+    <div class="kategori-pill fade-up">🌙 Seinen</div>
+  </div>
+</section>
+
+<!-- UPDATE -->
+<section id="update">
+  <div class="section-title fade-up">Update <span style="color:var(--accent-red)">Terbaru</span></div>
+  <div class="section-sub fade-up">Manga-manga yang baru saja mendapat chapter baru</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;">
+    <div class="feature-card fade-up" style="text-align:center;cursor:pointer;">
+      <div class="update-cover-wrapper">
+        <img src="covers/tanbo_hirotta.jpg" class="update-cover" alt="Tanbo de Hirotta">
+      </div>
+      <h3 style="font-size:0.85rem; margin-top:0.6rem;">Tanbo de Hirotta Onna Kishi</h3>
+      <p style="margin-top:0.4rem;"><span style="color:var(--accent-red);font-size:0.75rem;">● 1 new chapter</span></p>
+    </div>
+    <div class="feature-card fade-up" style="text-align:center;cursor:pointer;">
+      <div class="update-cover-wrapper">
+        <img src="covers/ex_grade_summon.jpg" class="update-cover" alt="Only I Have An EX-Grade">
+      </div>
+      <h3 style="font-size:0.85rem; margin-top:0.6rem;">Only I Have An EX-Grade Summon</h3>
+      <p style="margin-top:0.4rem;"><span style="color:var(--accent-red);font-size:0.75rem;">● 1 new chapter</span></p>
+    </div>
+    <div class="feature-card fade-up" style="text-align:center;cursor:pointer;">
+      <div class="update-cover-wrapper">
+        <img src="covers/extras_academy.jpg" class="update-cover" alt="The Extra's Academy">
+      </div>
+      <h3 style="font-size:0.85rem; margin-top:0.6rem;">The Extra's Academy Survival Guide</h3>
+      <p style="margin-top:0.4rem;"><span style="color:var(--accent-red);font-size:0.75rem;">● 1 new chapter</span></p>
+    </div>
+    <div class="feature-card fade-up" style="text-align:center;cursor:pointer;">
+      <div class="update-cover-wrapper">
+        <img src="covers/dorei_harem.jpg" class="update-cover" alt="The Demon King Overrun">
+      </div>
+      <h3 style="font-size:0.85rem; margin-top:0.6rem;">The Demon King Overrun by Heroes</h3>
+      <p style="margin-top:0.4rem;"><span style="color:var(--accent-cyan);font-size:0.75rem;">● Yesterday</span></p>
+    </div>
+    <div class="feature-card fade-up" style="text-align:center;cursor:pointer;">
+      <div class="update-cover-wrapper">
+        <img src="covers/yamiochi_boss.jpg" class="update-cover" alt="Yamiochi Last Boss">
+      </div>
+      <h3 style="font-size:0.85rem; margin-top:0.6rem;">Yamiochi Last Boss Reijou no...</h3>
+      <p style="margin-top:0.4rem;"><span style="color:var(--accent-red);font-size:0.75rem;">● 1 new chapter</span></p>
+    </div>
+    <div class="feature-card fade-up" style="text-align:center;cursor:pointer;">
+      <div class="update-cover-wrapper">
+        <img src="covers/evil_dragon.jpg" class="update-cover" alt="Shut Up, Evil Dragon">
+      </div>
+      <h3 style="font-size:0.85rem; margin-top:0.6rem;">Shut Up, Evil Dragon, I Don't...</h3>
+      <p style="margin-top:0.4rem;"><span style="color:var(--accent-cyan);font-size:0.75rem;">● Yesterday</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download" class="download-section">
+  <div class="section-title fade-up">
+    Download <span>ShiroManga-L</span>
+  </div>
+  <div class="section-sub fade-up">Dapatkan aplikasi terbaik untuk pengalaman baca manga yang luar biasa</div>
+  <div class="download-grid">
+    <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="download-card fade-up">
+      <div class="icon">🤖</div>
+      <h3>Android</h3>
+      <p>Download APK terbaru<br>v1.2 • 2026</p>
+      <div style="margin-top:1rem;background:var(--accent-blue);color:white;padding:8px 20px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;display:inline-block;">
+        Download APK
+      </div>
+    </a>
+    <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="download-card fade-up">
+      <div class="icon">💻</div>
+      <h3>GitHub</h3>
+      <p>Source code &amp; releases<br>Open Source</p>
+      <div style="margin-top:1rem;background:var(--surface2);color:var(--text);padding:8px 20px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;display:inline-block;border:1px solid var(--border);">
+        Lihat di GitHub
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <div class="footer-bar-left">
+    <span class="footer-tag">&lt;ShiroManga-L /&gt;</span>
+    <span>Aplikasi Baca Manga Terbaik dan Terlengkap 2026</span>
+  </div>
+  <div class="footer-bar-right">
+    <span class="footer-dot"></span>
+    <span class="footer-version">apps_new v1.2</span>
+  </div>
+</div>
+
+<script>
+  // Theme toggle
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    if (html.getAttribute('data-theme') === 'dark') {
+      html.setAttribute('data-theme', 'light');
+      btn.textContent = '🌙';
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      btn.textContent = '☀️';
+    }
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Nav active on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 80) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current || (current === '' && a.getAttribute('href') === '#')) {
+        a.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
