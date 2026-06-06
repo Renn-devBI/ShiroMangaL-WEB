@@ -526,6 +526,33 @@
 </head>
 <body>
 
+<!-- REDIRECT MODAL -->
+<div id="mangaRedirectModal" style="display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(10, 12, 20, 0.85); backdrop-filter: blur(20px); align-items: center; justify-content: center; padding: 2rem;">
+  <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; max-width: 450px; width: 100%; padding: 2rem; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">📖</div>
+    <h3 style="font-family: 'Exo 2', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--text);" id="redirectMangaTitle">Nama Manga</h3>
+    <p style="color: var(--text2); font-size: 0.85rem; margin-bottom: 1.5rem;" id="redirectMangaSource">Sumber: SHINIGAMI</p>
+    
+    <div id="redirectBookmarkBadge" style="display: none; background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-family: 'Rajdhani', sans-serif; font-weight: 700; margin-bottom: 1.5rem;">
+      📌 Halaman Bookmark Terdeteksi
+    </div>
+
+    <p style="color: var(--text2); font-size: 0.9rem; margin-bottom: 2rem;">Membuka aplikasi ShiroManga secara otomatis...</p>
+    
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <button onclick="tryOpenApp()" class="btn-primary" style="justify-content: center; width: 100%; border: none;">
+        Buka di Aplikasi
+      </button>
+      <a href="#download" onclick="closeRedirectModal()" class="btn-secondary" style="justify-content: center; width: 100%; text-decoration: none;">
+        Download APK Baru
+      </a>
+      <button onclick="closeRedirectModal()" style="background: transparent; border: none; color: var(--text3); font-family: 'Rajdhani', sans-serif; font-weight: 600; cursor: pointer; margin-top: 10px; font-size: 0.9rem;">
+        Tutup &amp; Lihat Website
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
 <div class="grid-bg"></div>
@@ -544,7 +571,7 @@
     <li><a href="#download">Download</a></li>
   </ul>
   <div class="nav-right">
-    <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" target="_blank" class="btn-download">
+    <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="btn-download">
       ⬇ Download Now
     </a>
     <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀️</button>
@@ -593,10 +620,10 @@
     </div>
 
     <div class="btn-group">
-      <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" target="_blank" class="btn-primary">
+      <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="btn-primary">
         Mulai Membaca <span class="arrow">›</span>
       </a>
-      <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank" class="btn-secondary">
+      <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="btn-secondary">
         Pelajari Lebih Lanjut
       </a>
     </div>
@@ -775,7 +802,7 @@
   </div>
   <div class="section-sub fade-up">Dapatkan aplikasi terbaik untuk pengalaman baca manga yang luar biasa</div>
   <div class="download-grid">
-    <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" target="_blank" class="download-card fade-up">
+    <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="download-card fade-up">
       <div class="icon">🤖</div>
       <h3>Android</h3>
       <p>Download APK terbaru<br>v1.2 • 2026</p>
@@ -783,7 +810,7 @@
         Download APK
       </div>
     </a>
-    <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank" class="download-card fade-up">
+    <a href="https://github.com/Renn-devBI/ShiroManga-L" target="_blank" class="download-card fade-up">
       <div class="icon">💻</div>
       <h3>GitHub</h3>
       <p>Source code &amp; releases<br>Open Source</p>
@@ -844,6 +871,50 @@
       }
     });
   });
+
+  // Parse parameters and handle redirect
+  const urlParams = new URLSearchParams(window.location.search);
+  const source = urlParams.get('source');
+  const name = urlParams.get('name');
+  const hasBookmark = urlParams.get('ch_id') || urlParams.get('pg');
+
+  if (source && name) {
+    document.getElementById('redirectMangaTitle').textContent = decodeURIComponent(name);
+    document.getElementById('redirectMangaSource').textContent = 'Sumber: ' + decodeURIComponent(source);
+    if (hasBookmark) {
+      document.getElementById('redirectBookmarkBadge').style.display = 'inline-block';
+    } else {
+      document.getElementById('redirectBookmarkBadge').style.display = 'none';
+    }
+    
+    const modal = document.getElementById('mangaRedirectModal');
+    modal.style.display = 'flex';
+    
+    // Auto launch
+    tryOpenApp();
+  }
+
+  function tryOpenApp() {
+    const search = window.location.search;
+    const customSchemeUrl = `kotatsu://manga${search}`;
+    const intentUrl = `intent://renn-devbi.github.io/ShiroMangaL-WEB/shiromanga-l${search}#Intent;scheme=https;package=org.shiro.manga;end`;
+
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    if (isAndroid) {
+      // Use intent for Chrome/Android
+      window.location.href = intentUrl;
+      // Fallback
+      setTimeout(() => {
+        window.location.href = customSchemeUrl;
+      }, 1000);
+    } else {
+      window.location.href = customSchemeUrl;
+    }
+  }
+
+  function closeRedirectModal() {
+    document.getElementById('mangaRedirectModal').style.display = 'none';
+  }
 </script>
 </body>
 </html>
