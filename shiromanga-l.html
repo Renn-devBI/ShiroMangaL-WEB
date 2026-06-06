@@ -527,26 +527,44 @@
 <body>
 
 <!-- REDIRECT MODAL -->
-<div id="mangaRedirectModal" style="display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(10, 12, 20, 0.85); backdrop-filter: blur(20px); align-items: center; justify-content: center; padding: 2rem;">
-  <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; max-width: 450px; width: 100%; padding: 2rem; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative;">
-    <div style="font-size: 3rem; margin-bottom: 1rem;">📖</div>
-    <h3 style="font-family: 'Exo 2', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--text);" id="redirectMangaTitle">Nama Manga</h3>
-    <p style="color: var(--text2); font-size: 0.85rem; margin-bottom: 1.5rem;" id="redirectMangaSource">Sumber: SHINIGAMI</p>
-    
-    <div id="redirectBookmarkBadge" style="display: none; background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-family: 'Rajdhani', sans-serif; font-weight: 700; margin-bottom: 1.5rem;">
-      📌 Halaman Bookmark Terdeteksi
+<div id="mangaRedirectModal" style="display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(10, 12, 20, 0.92); backdrop-filter: blur(24px); align-items: center; justify-content: center; padding: 2rem;">
+  <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; max-width: 460px; width: 100%; padding: 2.2rem; text-align: center; box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.1); position: relative; overflow: hidden;">
+    <!-- Glow top -->
+    <div style="position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:200px;height:120px;background:radial-gradient(ellipse,rgba(59,130,246,0.25),transparent 70%);pointer-events:none;"></div>
+
+    <!-- Icon -->
+    <div style="font-size:3.2rem;margin-bottom:0.8rem;line-height:1;">📖</div>
+
+    <!-- Manga title -->
+    <h3 style="font-family:'Exo 2',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:0.4rem;color:var(--text);line-height:1.3;" id="redirectMangaTitle">Nama Manga</h3>
+
+    <!-- Source badge -->
+    <div id="redirectMangaSource" style="display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);color:var(--accent-blue);padding:4px 14px;border-radius:20px;font-size:0.78rem;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:0.5px;margin-bottom:1rem;">📡 SHINIGAMI</div>
+
+    <!-- Manga URL -->
+    <div id="redirectMangaUrl" style="display:none;font-size:0.72rem;color:var(--text3);font-family:'Courier New',monospace;margin-bottom:0.8rem;word-break:break-all;background:var(--code-bg);padding:6px 10px;border-radius:6px;border:1px solid var(--border);"></div>
+
+    <!-- Bookmark badge -->
+    <div id="redirectBookmarkBadge" style="display:none;background:rgba(34,211,238,0.13);color:var(--accent-cyan);padding:5px 12px;border-radius:20px;font-size:0.78rem;font-family:'Rajdhani',sans-serif;font-weight:700;margin-bottom:0.8rem;border:1px solid rgba(34,211,238,0.2);">
+      📌 Lanjut ke Halaman Bookmark
     </div>
 
-    <p style="color: var(--text2); font-size: 0.9rem; margin-bottom: 2rem;">Membuka aplikasi ShiroManga secara otomatis...</p>
-    
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <button onclick="tryOpenApp()" class="btn-primary" style="justify-content: center; width: 100%; border: none;">
-        Buka di Aplikasi
+    <!-- Status text -->
+    <p id="redirectStatusText" style="color:var(--text2);font-size:0.88rem;margin-bottom:1.6rem;line-height:1.5;">Sedang membuka aplikasi ShiroManga-L...</p>
+
+    <!-- Countdown bar -->
+    <div id="countdownBar" style="height:3px;background:var(--border);border-radius:2px;margin-bottom:1.6rem;overflow:hidden;">
+      <div id="countdownFill" style="height:100%;width:100%;background:linear-gradient(90deg,var(--accent-blue),var(--accent-pink));transform-origin:left;transition:transform 3s linear;"></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="tryOpenApp()" class="btn-primary" style="justify-content:center;width:100%;border:none;font-size:1rem;padding:14px;">
+        🚀 Buka di Aplikasi
       </button>
-      <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" onclick="closeRedirectModal()" target="_blank" class="btn-secondary" style="justify-content: center; width: 100%; text-decoration: none;">
-        Download APK Baru
+      <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" target="_blank" class="btn-secondary" style="justify-content:center;width:100%;text-decoration:none;">
+        ⬇ Download APK Terbaru
       </a>
-      <button onclick="closeRedirectModal()" style="background: transparent; border: none; color: var(--text3); font-family: 'Rajdhani', sans-serif; font-weight: 600; cursor: pointer; margin-top: 10px; font-size: 0.9rem;">
+      <button onclick="closeRedirectModal()" style="background:transparent;border:none;color:var(--text3);font-family:'Rajdhani',sans-serif;font-weight:600;cursor:pointer;margin-top:6px;font-size:0.88rem;padding:6px;">
         Tutup &amp; Lihat Website
       </button>
     </div>
@@ -834,7 +852,6 @@
 </div>
 
 <script>
-  // Theme toggle
   function toggleTheme() {
     const html = document.documentElement;
     const btn = document.getElementById('themeBtn');
@@ -847,16 +864,13 @@
     }
   }
 
-  // Scroll animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) e.target.classList.add('visible');
     });
   }, { threshold: 0.1 });
-
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-  // Nav active on scroll
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', () => {
@@ -872,44 +886,96 @@
     });
   });
 
-  // Parse parameters and handle redirect
-  const urlParams = new URLSearchParams(window.location.search);
-  const source = urlParams.get('source');
-  const name = urlParams.get('name');
-  const hasBookmark = urlParams.get('ch_id') || urlParams.get('pg');
+  const APP_PACKAGE   = 'org.shiro.manga';
+  const HOST          = 'renn-devbi.github.io';
+  const BASE_PATH     = '/ShiroMangaL-WEB/shiromanga-l';
+  const APK_URL       = 'https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk';
 
-  if (source && name) {
-    document.getElementById('redirectMangaTitle').textContent = decodeURIComponent(name);
-    document.getElementById('redirectMangaSource').textContent = 'Sumber: ' + decodeURIComponent(source);
-    if (hasBookmark) {
-      document.getElementById('redirectBookmarkBadge').style.display = 'inline-block';
-    } else {
-      document.getElementById('redirectBookmarkBadge').style.display = 'none';
+  const urlParams = new URLSearchParams(window.location.search);
+  const source    = urlParams.get('source');
+  const mangaName = urlParams.get('name');
+  const mangaUrl  = urlParams.get('url');
+  const chapterId = urlParams.get('ch_id');
+  const page      = urlParams.get('pg');
+
+  if (source && mangaName) {
+    document.getElementById('redirectMangaTitle').textContent = decodeURIComponent(mangaName);
+
+    const sourceEl = document.getElementById('redirectMangaSource');
+    sourceEl.innerHTML = '📡 ' + decodeURIComponent(source);
+
+    if (mangaUrl) {
+      const urlEl = document.getElementById('redirectMangaUrl');
+      urlEl.style.display = 'block';
+      urlEl.textContent = decodeURIComponent(mangaUrl);
     }
-    
+
+    if (chapterId || page) {
+      document.getElementById('redirectBookmarkBadge').style.display = 'inline-flex';
+    }
+
     const modal = document.getElementById('mangaRedirectModal');
     modal.style.display = 'flex';
-    
-    // Auto launch
-    tryOpenApp();
+
+    requestAnimationFrame(() => {
+      const fill = document.getElementById('countdownFill');
+      fill.style.transform = 'scaleX(0)';
+    });
+
+    setTimeout(() => {
+      tryOpenApp(false);
+    }, 300);
   }
 
-  function tryOpenApp() {
-    const search = window.location.search;
-    const customSchemeUrl = `kotatsu://manga${search}`;
-    const intentUrl = `intent://renn-devbi.github.io/ShiroMangaL-WEB/shiromanga-l${search}#Intent;scheme=https;package=org.shiro.manga;end`;
+  let _openAttempts = 0;
+
+  function tryOpenApp(manual = true) {
+    _openAttempts++;
 
     const isAndroid = /Android/i.test(navigator.userAgent);
+    const search    = window.location.search;
+
+    const fallbackUrl = encodeURIComponent(APK_URL);
+
     if (isAndroid) {
-      // Use intent for Chrome/Android
+       */
+      const intentPath = `${HOST}${BASE_PATH}${search}`;
+      const intentUrl  = `intent://${intentPath}#Intent;scheme=https;package=${APP_PACKAGE};S.browser_fallback_url=${fallbackUrl};end`;
+
+      setStatus('Membuka ShiroManga-L via Android Intent...');
+
       window.location.href = intentUrl;
-      // Fallback
       setTimeout(() => {
-        window.location.href = customSchemeUrl;
-      }, 1000);
+        if (document.hasFocus()) {
+          const schemeUrl = `shiromanga://manga${search}`;
+          setStatus('Mencoba custom scheme sebagai fallback...');
+          window.location.href = schemeUrl;
+
+          setTimeout(() => {
+            if (document.hasFocus() && _openAttempts <= 2) {
+              setStatus('Aplikasi belum terinstal. Silakan download terlebih dahulu.');
+              document.getElementById('countdownFill').style.transform = 'scaleX(0)';
+            }
+          }, 2500);
+        }
+      }, 1500);
+
     } else {
-      window.location.href = customSchemeUrl;
+      const schemeUrl = `shiromanga-l://manga${search}`;
+      setStatus('Membuka dengan custom scheme...');
+      window.location.href = schemeUrl;
+
+      setTimeout(() => {
+        if (document.hasFocus()) {
+          setStatus('Aplikasi tidak terdeteksi. Gunakan Android untuk membuka link ini.');
+        }
+      }, 2000);
     }
+  }
+
+  function setStatus(msg) {
+    const el = document.getElementById('redirectStatusText');
+    if (el) el.textContent = msg;
   }
 
   function closeRedirectModal() {
