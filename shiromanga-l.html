@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShiroManga-L - Aplikasi Baca Manga Terbaik 2026</title>
 <link rel="icon" type="image/png" href="icon.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800;900&family=Rajdhani:wght@400;600;700&family=Noto+Sans:wght@300;400;600&display=swap" rel="stylesheet">
@@ -388,6 +389,7 @@
   .feature-card:nth-child(4) .feature-card-icon { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); box-shadow: 0 0 15px rgba(239, 68, 68, 0.1); }
   .feature-card:nth-child(5) .feature-card-icon { background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); box-shadow: 0 0 15px rgba(34, 211, 238, 0.1); }
   .feature-card:nth-child(6) .feature-card-icon { background: rgba(34, 197, 94, 0.15); color: #22c55e; box-shadow: 0 0 15px rgba(34, 197, 94, 0.1); }
+  .feature-card:nth-child(7) .feature-card-icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1); }
   .feature-card h3 {
     font-family: 'Exo 2', sans-serif; font-weight: 700;
     font-size: 1rem; margin-bottom: 0.5rem;
@@ -447,19 +449,24 @@
   .orb-1 { width: 400px; height: 400px; background: var(--accent-blue); top: -100px; left: -100px; }
   .orb-2 { width: 350px; height: 350px; background: var(--accent-pink); bottom: -100px; right: -100px; }
 
-  /* ─── MOBILE ─── */
+  /* MOBILE MOCKUP */
   .mobile-phone {
     position: absolute; right: 20px; bottom: -30px;
-    width: 165px; border-radius: 20px; overflow: hidden;
-    border: 2px solid #1f2937;
+    width: 165px; border-radius: 28px; overflow: hidden;
+    border: 3.5px solid #1f2937;
     box-shadow: 0 25px 60px rgba(0,0,0,0.65);
     background: var(--bg);
     z-index: 4;
     animation: float 6s ease-in-out infinite;
     animation-delay: 1s;
   }
+  .mobile-notch {
+    position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
+    width: 48px; height: 10px; background: #1f2937; border-radius: 8px;
+    z-index: 10;
+  }
   .mobile-status {
-    background: var(--bg2); padding: 6px 10px;
+    background: var(--bg2); padding: 10px 10px 6px;
     font-size: 0.55rem; color: var(--text2);
     display: flex; justify-content: space-between;
     border-bottom: 1px solid var(--border);
@@ -499,7 +506,7 @@
 
   @media (max-width: 1200px) {
     .mockup-desktop {
-      width: 460px; height: 310px;
+      width: 460px; height: auto;
     }
     .mascot {
       width: 160px; top: -50px; right: 0px;
@@ -529,12 +536,12 @@
 <!-- REDIRECT MODAL -->
 <div id="mangaRedirectModal" style="display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(10, 12, 20, 0.85); backdrop-filter: blur(20px); align-items: center; justify-content: center; padding: 2rem;">
   <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; max-width: 450px; width: 100%; padding: 2rem; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative;">
-    <div style="font-size: 3rem; margin-bottom: 1rem;">📖</div>
+    <div style="font-size: 3.5rem; margin-bottom: 1rem; color: var(--accent-blue);"><i class="fa-solid fa-book-open"></i></div>
     <h3 style="font-family: 'Exo 2', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--text);" id="redirectMangaTitle">Nama Manga</h3>
     <p style="color: var(--text2); font-size: 0.85rem; margin-bottom: 1.5rem;" id="redirectMangaSource">Sumber: SHINIGAMI</p>
     
     <div id="redirectBookmarkBadge" style="display: none; background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-family: 'Rajdhani', sans-serif; font-weight: 700; margin-bottom: 1.5rem;">
-      📌 Halaman Bookmark Terdeteksi
+      <i class="fa-solid fa-bookmark"></i> Halaman Bookmark Terdeteksi
     </div>
 
     <p style="color: var(--text2); font-size: 0.9rem; margin-bottom: 2rem;">Membuka aplikasi ShiroManga secara otomatis...</p>
@@ -572,9 +579,9 @@
   </ul>
   <div class="nav-right">
     <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" target="_blank" class="btn-download">
-      ⬇ Download Now
+      <i class="fa-solid fa-download"></i> Download Now
     </a>
-    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀️</button>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-sun"></i></button>
   </div>
 </nav>
 
@@ -583,7 +590,7 @@
   <div class="hero-left">
     <div class="badge">
       <span class="badge-dot"></span>
-      &lt;/&gt; APPS_NEW v1.2
+      <i class="fa-solid fa-code" style="margin-right: 4px;"></i> APPS_NEW v9.5.9
     </div>
 
     <span class="logo-hero">
@@ -602,26 +609,26 @@
 
     <div class="features-row">
       <div class="feature-item">
-        <div class="feature-icon">🔄</div>
+        <div class="feature-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
         Update Cepat
       </div>
       <div class="feature-item">
-        <div class="feature-icon">❤️</div>
+        <div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
         Favorit Tanpa Batas
       </div>
       <div class="feature-item">
-        <div class="feature-icon">🌙</div>
+        <div class="feature-icon"><i class="fa-solid fa-moon"></i></div>
         Mode Gelap
       </div>
       <div class="feature-item">
-        <div class="feature-icon">🚫</div>
+        <div class="feature-icon"><i class="fa-solid fa-ban"></i></div>
         Tanpa Iklan
       </div>
     </div>
 
     <div class="btn-group">
       <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank" class="btn-primary">
-        Mulai Membaca <span class="arrow">›</span>
+        Mulai Membaca <i class="fa-solid fa-arrow-right arrow"></i>
       </a>
       <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank" class="btn-secondary">
         Pelajari Lebih Lanjut
@@ -662,9 +669,10 @@
 
     <!-- Mobile phone mockup -->
     <div class="mobile-phone">
+      <div class="mobile-notch"></div>
       <div class="mobile-status">
         <span>9:45 PM</span>
-        <span>☁ 4G 79%</span>
+        <span><i class="fa-solid fa-wifi"></i> <i class="fa-solid fa-battery-three-quarters"></i> 79%</span>
       </div>
       <div class="mobile-body">
         <img src="portrait.jpeg" alt="ShiroManga Portrait" class="mobile-image">
@@ -687,34 +695,39 @@
   <div class="section-sub fade-up">Semua yang kamu butuhkan untuk pengalaman baca manga terbaik</div>
   <div class="features-grid">
     <div class="feature-card fade-up">
-      <div class="feature-card-icon">🔄</div>
+      <div class="feature-card-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
       <h3>Update Cepat</h3>
       <p>Dapatkan chapter terbaru secepat mungkin, langsung dari sumbernya tanpa delay.</p>
     </div>
     <div class="feature-card fade-up">
-      <div class="feature-card-icon">❤️</div>
+      <div class="feature-card-icon"><i class="fa-solid fa-heart"></i></div>
       <h3>Favorit Tanpa Batas</h3>
       <p>Simpan manga favorit sebanyak yang kamu mau tanpa batasan apapun.</p>
     </div>
     <div class="feature-card fade-up">
-      <div class="feature-card-icon">🌙</div>
+      <div class="feature-card-icon"><i class="fa-solid fa-moon"></i></div>
       <h3>Mode Gelap</h3>
       <p>Tampilan dark mode yang nyaman di mata, cocok untuk baca di malam hari.</p>
     </div>
     <div class="feature-card fade-up">
-      <div class="feature-card-icon">🚫</div>
+      <div class="feature-card-icon"><i class="fa-solid fa-ban"></i></div>
       <h3>Tanpa Iklan</h3>
       <p>Nikmati pengalaman membaca tanpa gangguan iklan yang mengganggu.</p>
     </div>
     <div class="feature-card fade-up">
-      <div class="feature-card-icon">🔍</div>
+      <div class="feature-card-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
       <h3>Pencarian Canggih</h3>
       <p>Cari manga dengan mudah menggunakan fitur pencarian yang cepat dan akurat.</p>
     </div>
     <div class="feature-card fade-up">
-      <div class="feature-card-icon">📱</div>
+      <div class="feature-card-icon"><i class="fa-brands fa-android"></i></div>
       <h3>Multi Platform</h3>
       <p>Tersedia untuk Android dan dapat diakses melalui berbagai perangkat.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-card-icon"><i class="fa-solid fa-comments"></i></div>
+      <h3>Live Chat &amp; Komunitas</h3>
+      <p>Saling berinteraksi, membagikan source manga, berkomunikasi melalui komunitas, dan saling sharing.</p>
     </div>
   </div>
 </section>
@@ -724,24 +737,24 @@
   <div class="section-title fade-up">Koleksi <span style="color:var(--accent-blue)">Kategori</span></div>
   <div class="section-sub fade-up">Ribuan manga dari berbagai genre siap menemani harimu</div>
   <div class="kategori-grid">
-    <div class="kategori-pill fade-up">⚔️ Action</div>
-    <div class="kategori-pill fade-up">💕 Romance</div>
-    <div class="kategori-pill fade-up">😂 Comedy</div>
-    <div class="kategori-pill fade-up">🎭 Drama</div>
-    <div class="kategori-pill fade-up">🧙 Fantasy</div>
-    <div class="kategori-pill fade-up">🔮 Isekai</div>
-    <div class="kategori-pill fade-up">🏫 School Life</div>
-    <div class="kategori-pill fade-up">😱 Horror</div>
-    <div class="kategori-pill fade-up">🔪 Thriller</div>
-    <div class="kategori-pill fade-up">🤖 Sci-Fi</div>
-    <div class="kategori-pill fade-up">🥋 Martial Arts</div>
-    <div class="kategori-pill fade-up">🏃 Sports</div>
-    <div class="kategori-pill fade-up">📖 Doujin</div>
-    <div class="kategori-pill fade-up">👾 Siscon</div>
-    <div class="kategori-pill fade-up">💫 Slice of Life</div>
-    <div class="kategori-pill fade-up">🌸 Shoujo</div>
-    <div class="kategori-pill fade-up">⚡ Shounen</div>
-    <div class="kategori-pill fade-up">🌙 Seinen</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-fire-flame-curved"></i> Action</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-heart"></i> Romance</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-face-laugh-beam"></i> Comedy</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-masks-theater"></i> Drama</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-wand-magic-sparkles"></i> Fantasy</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-door-open"></i> Isekai</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-graduation-cap"></i> School Life</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-ghost"></i> Horror</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-skull"></i> Thriller</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-user-astronaut"></i> Sci-Fi</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-hand-fist"></i> Martial Arts</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-medal"></i> Sports</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-book-open"></i> Doujin</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-people-roof"></i> Siscon</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-mug-hot"></i> Slice of Life</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-child-dress"></i> Shoujo</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-bolt"></i> Shounen</div>
+    <div class="kategori-pill fade-up"><i class="fa-solid fa-user-ninja"></i> Seinen</div>
   </div>
 </section>
 
@@ -803,19 +816,19 @@
   <div class="section-sub fade-up">Dapatkan aplikasi terbaik untuk pengalaman baca manga yang luar biasa</div>
   <div class="download-grid">
     <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" target="_blank" class="download-card fade-up">
-      <div class="icon">🤖</div>
+      <div class="icon"><i class="fa-brands fa-android"></i></div>
       <h3>Android</h3>
       <p>Download APK terbaru<br>v1.2 • 2026</p>
       <div style="margin-top:1rem;background:var(--accent-blue);color:white;padding:8px 20px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;display:inline-block;">
-        Download APK
+        <i class="fa-solid fa-download"></i> Download APK
       </div>
     </a>
     <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank" class="download-card fade-up">
-      <div class="icon">💻</div>
+      <div class="icon"><i class="fa-brands fa-github"></i></div>
       <h3>GitHub</h3>
       <p>Source code &amp; releases<br>Open Source</p>
       <div style="margin-top:1rem;background:var(--surface2);color:var(--text);padding:8px 20px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;display:inline-block;border:1px solid var(--border);">
-        Lihat di GitHub
+        <i class="fa-solid fa-code"></i> Lihat di GitHub
       </div>
     </a>
   </div>
@@ -829,7 +842,7 @@
   </div>
   <div class="footer-bar-right">
     <span class="footer-dot"></span>
-    <span class="footer-version">apps_new v1.2</span>
+    <span class="footer-version">apps_new v9.5.9</span>
   </div>
 </div>
 
@@ -840,10 +853,10 @@
     const btn = document.getElementById('themeBtn');
     if (html.getAttribute('data-theme') === 'dark') {
       html.setAttribute('data-theme', 'light');
-      btn.textContent = '🌙';
+      btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
     } else {
       html.setAttribute('data-theme', 'dark');
-      btn.textContent = '☀️';
+      btn.innerHTML = '<i class="fa-solid fa-sun"></i>';
     }
   }
 
