@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShiroManga-L — Dokumentasi Resmi</title>
-<meta name="description" content="Dokumentasi resmi aplikasi ShiroManga-L — panduan lengkap instalasi, fitur, kategori, dan penggunaan aplikasi baca manga terbaik.">
+<meta name="description" content="Dokumentasi resmi aplikasi ShiroManga-L — panduan lengkap instalasi, fitur, kategori, dan rilis versi otomatis aplikasi baca manga terbaik.">
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════
    DESIGN TOKENS — Official Documentation
@@ -38,7 +38,7 @@
   --danger:      #ef4444;
   --info:        #3b82f6;
 
-  --font-sans:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono:   'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 
   --header-h:    56px;
@@ -270,7 +270,9 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
 }
 .sidebar-version-block .ver-pill {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   margin-top: 4px;
   padding: 2px 8px;
   border-radius: 10px;
@@ -669,7 +671,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 20px;
 }
 .dl-card {
-  flex: 1; min-width: 220px;
+  flex: 1; min-width: 240px;
   padding: 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -685,12 +687,12 @@ img { max-width: 100%; display: block; }
   color: var(--text-muted);
 }
 .dl-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-.dl-card p { font-size: 13px; color: var(--text-faint); margin-bottom: 14px; }
+.dl-card p { font-size: 13px; color: var(--text-faint); margin-bottom: 14px; line-height: 1.5; }
 .dl-card-btn {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 7px 16px;
+  padding: 8px 18px;
   border-radius: var(--radius);
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   transition: background .15s;
   margin-top: auto;
@@ -699,13 +701,13 @@ img { max-width: 100%; display: block; }
   background: var(--accent);
   color: #fff;
 }
-.dl-card-btn.primary:hover { background: var(--accent-hover); }
+.dl-card-btn.primary:hover { background: var(--accent-hover); text-decoration: none; }
 .dl-card-btn.secondary {
   background: var(--bg-surface);
   border: 1px solid var(--border);
   color: var(--text-muted);
 }
-.dl-card-btn.secondary:hover { border-color: var(--border-light); color: var(--text); }
+.dl-card-btn.secondary:hover { border-color: var(--border-light); color: var(--text); text-decoration: none; }
 
 /* ══════════════════════════════════════════
    NAV FOOTER (Prev / Next)
@@ -960,7 +962,7 @@ img { max-width: 100%; display: block; }
     <p class="redirect-desc">Membuka aplikasi ShiroManga secara otomatis...</p>
     <div class="redirect-actions">
       <button onclick="tryOpenApp()" class="redirect-btn-primary">Buka di Aplikasi</button>
-      <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" onclick="closeRedirectModal()" target="_blank" class="redirect-btn-secondary">Download APK Baru</a>
+      <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" id="redirectApkLink" onclick="closeRedirectModal()" target="_blank" class="redirect-btn-secondary">Download APK Baru</a>
       <button onclick="closeRedirectModal()" class="redirect-btn-ghost">Tutup &amp; Lihat Dokumentasi</button>
     </div>
   </div>
@@ -976,11 +978,12 @@ img { max-width: 100%; display: block; }
     <div class="search-results" id="searchResults">
       <div class="search-result-item" onclick="goTo('#overview')"><i class="fa-solid fa-file-lines"></i> Overview</div>
       <div class="search-result-item" onclick="goTo('#instalasi')"><i class="fa-solid fa-download"></i> Instalasi</div>
+      <div class="search-result-item" onclick="goTo('#konfigurasi')"><i class="fa-solid fa-gear"></i> Konfigurasi Awal</div>
       <div class="search-result-item" onclick="goTo('#fitur')"><i class="fa-solid fa-cube"></i> Fitur Utama</div>
       <div class="search-result-item" onclick="goTo('#kategori')"><i class="fa-solid fa-tags"></i> Kategori Manga</div>
       <div class="search-result-item" onclick="goTo('#update')"><i class="fa-solid fa-clock-rotate-left"></i> Update Terbaru</div>
       <div class="search-result-item" onclick="goTo('#download')"><i class="fa-solid fa-cloud-arrow-down"></i> Download</div>
-      <div class="search-result-item" onclick="goTo('#spesifikasi')"><i class="fa-solid fa-microchip"></i> Spesifikasi</div>
+      <div class="search-result-item" onclick="goTo('#spesifikasi')"><i class="fa-solid fa-microchip"></i> Spesifikasi Teknis</div>
     </div>
     <div class="search-footer">
       <span><kbd>↑</kbd> <kbd>↓</kbd> Navigasi</span>
@@ -1018,7 +1021,7 @@ img { max-width: 100%; display: block; }
   </div>
 
   <div class="header-actions">
-    <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank" class="header-btn" title="GitHub">
+    <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank" class="header-btn" title="GitHub Repository">
       <i class="fa-brands fa-github"></i>
     </a>
     <button class="header-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
@@ -1064,7 +1067,7 @@ img { max-width: 100%; display: block; }
 
     <div class="sidebar-version-block">
       <strong>ShiroManga-L</strong><br>
-      <span class="ver-pill">v9.5.9 — Stable</span>
+      <span class="ver-pill" id="sidebarVersion">v9.6.0 — Stable</span>
     </div>
   </aside>
 
@@ -1073,15 +1076,24 @@ img { max-width: 100%; display: block; }
 
     <!-- OVERVIEW -->
     <section id="overview">
-      <div class="version-pill"><span class="dot"></span> APPS_NEW v9.5.9 — Stable Release</div>
+      <div class="version-pill" id="overviewVersionBadge"><span class="dot"></span> <span id="overviewVersionText">APPS_NEW v9.6.0 — Stable Release</span></div>
       <h1>ShiroManga-L</h1>
       <p class="doc-lead">
         Panduan resmi untuk aplikasi baca manga <strong>ShiroManga-L</strong> — aplikasi terbaik dan terlengkap untuk membaca ribuan koleksi manga dengan update cepat, tanpa iklan, dan pengalaman membaca yang nyaman.
       </p>
 
+      <!-- Dynamic Changelog Callout (Terbaca otomatis dari GitHub Release) -->
+      <div class="callout callout-tip" id="latestChangelogBox" style="display: none;">
+        <div class="callout-title"><i class="fa-solid fa-bolt"></i> Catatan Rilis Terbaru (<span id="changelogVersionTag">v9.6.0</span>)</div>
+        <div id="latestChangelogContent" style="white-space: pre-wrap; font-size: 13px; font-family: var(--font-mono); margin-top: 6px; line-height: 1.6;"></div>
+        <div style="margin-top: 8px;">
+          <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest" id="latestChangelogLink" target="_blank" style="font-size: 12px; font-weight: 600;">Lihat rilis lengkap di GitHub →</a>
+        </div>
+      </div>
+
       <div class="callout callout-info">
         <div class="callout-title"><i class="fa-solid fa-circle-info"></i> Catatan</div>
-        <p>Dokumentasi ini mencakup panduan instalasi, daftar fitur, kategori manga yang tersedia, dan cara mendapatkan update terbaru.</p>
+        <p>Dokumentasi ini mencakup panduan instalasi, daftar fitur, kategori manga yang tersedia, serta tautan unduhan yang diperbarui secara otomatis setiap ada rilis baru di GitHub.</p>
       </div>
 
       <h3>Mengapa ShiroManga-L?</h3>
@@ -1092,13 +1104,14 @@ img { max-width: 100%; display: block; }
           <span class="code-block-lang">Overview</span>
           <button class="code-block-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
         </div>
-        <pre><span class="cm">// Support Version</span>
+        <pre><span class="cm">// Informasi Versi & Platform</span>
 Platform       : Android (APK)
-Versi Terbaru  : v9.5.9
+Versi Terbaru  : <span id="codeVersion" style="color: var(--accent); font-weight: 600;">v9.6.0</span>
+Tanggal Rilis  : <span id="codeReleaseDate">Terbaru</span>
 Lisensi        : Open Source
 Sumber Manga   : Multi-source
 Bahasa UI      : Indonesia
-Ukuran APK     : ~15 MB</pre>
+Ukuran APK     : <span id="codeApkSize">~15 MB</span></pre>
       </div>
     </section>
 
@@ -1130,8 +1143,8 @@ Ukuran APK     : ~15 MB</pre>
           <span class="code-block-lang">Langkah</span>
           <button class="code-block-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
         </div>
-        <pre><span class="val">1.</span> Download file APK dari halaman <span class="fn">GitHub Releases</span>
-<span class="val">2.</span> Buka file APK yang telah diunduh
+        <pre><span class="val">1.</span> Download file APK dari tautan resmi di bagian <span class="fn">Download</span>
+<span class="val">2.</span> Buka file APK yang telah diunduh di perangkat Android
 <span class="val">3.</span> Izinkan instalasi dari <span class="str">"Sumber Tidak Dikenal"</span> jika diminta
 <span class="val">4.</span> Tunggu proses instalasi selesai
 <span class="val">5.</span> Buka aplikasi <span class="fn">ShiroManga-L</span> dan mulai membaca</pre>
@@ -1139,7 +1152,7 @@ Ukuran APK     : ~15 MB</pre>
 
       <div class="callout callout-warning">
         <div class="callout-title"><i class="fa-solid fa-triangle-exclamation"></i> Peringatan</div>
-        <p>Pastikan Anda mengunduh APK hanya dari sumber resmi (GitHub repository) untuk menghindari file yang telah dimodifikasi.</p>
+        <p>Pastikan Anda mengunduh APK hanya dari repositori resmi GitHub untuk menjamin keaslian dan keamanan file instalasi.</p>
       </div>
     </section>
 
@@ -1156,16 +1169,16 @@ Ukuran APK     : ~15 MB</pre>
           <button class="code-block-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
         </div>
         <pre><span class="cm">// Pengaturan yang disarankan</span>
-Tema              : <span class="str">"Dark Mode"</span>    
-Kualitas Gambar   : <span class="str">"High"</span>         
-Notifikasi Update : <span class="val">true</span>          
-Auto-Download     : <span class="val">false</span>         
+Tema              : <span class="str">"Dark Mode"</span>    <span class="cm">// nyaman di mata</span>
+Kualitas Gambar   : <span class="str">"High"</span>         <span class="cm">// terbaik untuk Wi-Fi</span>
+Notifikasi Update : <span class="val">true</span>           <span class="cm">// aktifkan auto notification</span>
+Auto-Download     : <span class="val">false</span>          <span class="cm">// hemat penyimpanan & kuota</span>
 Bahasa            : <span class="str">"Indonesia"</span></pre>
       </div>
 
       <div class="callout callout-tip">
         <div class="callout-title"><i class="fa-solid fa-lightbulb"></i> Tips</div>
-        <p>Aktifkan <strong>Mode Gelap</strong> untuk pengalaman membaca yang lebih nyaman di malam hari dan menghemat baterai pada perangkat AMOLED.</p>
+        <p>Aktifkan <strong>Mode Gelap</strong> untuk kenyamanan membaca di malam hari dan efisiensi baterai pada layar AMOLED.</p>
       </div>
     </section>
 
@@ -1267,42 +1280,42 @@ Bahasa            : <span class="str">"Indonesia"</span></pre>
 
       <div class="update-grid">
         <div class="update-card">
-          <img src="covers/tanbo_hirotta.png" class="update-card-img" alt="Tanbo de Hirotta">
+          <img src="covers/tanbo_hirotta.png" class="update-card-img" alt="Tanbo de Hirotta" loading="lazy">
           <div class="update-card-body">
             <h4>Tanbo de Hirotta Onna Kishi</h4>
             <div class="update-status"><span class="dot-new"></span> 1 new chapter</div>
           </div>
         </div>
         <div class="update-card">
-          <img src="covers/Only I Have An EX-Grade Summon.png" class="update-card-img" alt="Only I Have An EX-Grade">
+          <img src="covers/Only I Have An EX-Grade Summon.png" class="update-card-img" alt="Only I Have An EX-Grade" loading="lazy">
           <div class="update-card-body">
             <h4>Only I Have An EX-Grade Summon</h4>
             <div class="update-status"><span class="dot-new"></span> 1 new chapter</div>
           </div>
         </div>
         <div class="update-card">
-          <img src="covers/extras_academy.png" class="update-card-img" alt="The Extra's Academy">
+          <img src="covers/extras_academy.png" class="update-card-img" alt="The Extra's Academy" loading="lazy">
           <div class="update-card-body">
             <h4>The Extra's Academy Survival Guide</h4>
             <div class="update-status"><span class="dot-new"></span> 1 new chapter</div>
           </div>
         </div>
         <div class="update-card">
-          <img src="covers/The Demon King Overrun by Heroes.png" class="update-card-img" alt="The Demon King Overrun">
+          <img src="covers/The Demon King Overrun by Heroes.png" class="update-card-img" alt="The Demon King Overrun" loading="lazy">
           <div class="update-card-body">
             <h4>The Demon King Overrun by Heroes</h4>
             <div class="update-status"><span class="dot-recent"></span> Yesterday</div>
           </div>
         </div>
         <div class="update-card">
-          <img src="covers/yamiochi_boss.png" class="update-card-img" alt="Yamiochi Last Boss">
+          <img src="covers/yamiochi_boss.png" class="update-card-img" alt="Yamiochi Last Boss" loading="lazy">
           <div class="update-card-body">
             <h4>Yamiochi Last Boss Reijou no...</h4>
             <div class="update-status"><span class="dot-new"></span> 1 new chapter</div>
           </div>
         </div>
         <div class="update-card">
-          <img src="covers/evil_dragon.png" class="update-card-img" alt="Shut Up, Evil Dragon">
+          <img src="covers/evil_dragon.png" class="update-card-img" alt="Shut Up, Evil Dragon" loading="lazy">
           <div class="update-card-body">
             <h4>Shut Up, Evil Dragon, I Don't...</h4>
             <div class="update-status"><span class="dot-recent"></span> Yesterday</div>
@@ -1316,19 +1329,21 @@ Bahasa            : <span class="str">"Indonesia"</span></pre>
     <!-- DOWNLOAD -->
     <section id="download">
       <h2><a href="#download" class="anchor-link">#</a>Download</h2>
-      <p>Dapatkan ShiroManga-L untuk perangkat Anda.</p>
+      <p>Dapatkan ShiroManga-L untuk perangkat Anda. Versi dan link download akan otomatis diperbarui setiap ada rilis baru di GitHub.</p>
 
       <div class="download-cards">
-        <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" target="_blank" class="dl-card">
+        <div class="dl-card">
           <div class="dl-card-icon"><i class="fa-brands fa-android"></i></div>
-          <h4>Android</h4>
-          <p>Download APK terbaru<br>v1.2 · 2026</p>
-          <span class="dl-card-btn primary"><i class="fa-solid fa-download"></i> Download APK</span>
-        </a>
+          <h4>Android APK</h4>
+          <p>Download APK resmi terbaru<br><strong id="dlCardVersion">v9.6.0</strong> · <span id="dlCardDate">2026</span> (<span id="dlCardSize">~15 MB</span>)</p>
+          <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB/releases/latest/download/ShiroManga.apk" id="dlApkBtn" target="_blank" class="dl-card-btn primary">
+            <i class="fa-solid fa-download"></i> Download APK Terbaru
+          </a>
+        </div>
         <a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank" class="dl-card">
           <div class="dl-card-icon"><i class="fa-brands fa-github"></i></div>
           <h4>GitHub</h4>
-          <p>Source code &amp; releases<br>Open Source</p>
+          <p>Source code &amp; semua daftar rilis<br>Open Source</p>
           <span class="dl-card-btn secondary"><i class="fa-solid fa-code"></i> Lihat di GitHub</span>
         </a>
       </div>
@@ -1348,12 +1363,14 @@ Bahasa            : <span class="str">"Indonesia"</span></pre>
           </thead>
           <tbody>
             <tr><td>Nama Aplikasi</td><td><strong>ShiroManga-L</strong></td></tr>
-            <tr><td>Versi</td><td><code>v9.5.9</code></td></tr>
+            <tr><td>Versi Terbaru</td><td><code id="tableVersion">v9.6.0</code></td></tr>
+            <tr><td>Tanggal Rilis</td><td><span id="tableReleaseDate">-</span></td></tr>
+            <tr><td>Ukuran File</td><td><span id="tableApkSize">~15 MB</span></td></tr>
             <tr><td>Platform</td><td>Android (APK)</td></tr>
             <tr><td>Minimum SDK</td><td>API 24 (Android 7.0)</td></tr>
             <tr><td>Bahasa</td><td>Indonesia</td></tr>
             <tr><td>Lisensi</td><td>Open Source</td></tr>
-            <tr><td>Repository</td><td><a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank">GitHub</a></td></tr>
+            <tr><td>Repository</td><td><a href="https://github.com/Renn-devBI/ShiroMangaL-WEB" target="_blank">GitHub (Renn-devBI/ShiroMangaL-WEB)</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -1413,7 +1430,8 @@ Bahasa            : <span class="str">"Indonesia"</span></pre>
     const saved = localStorage.getItem('theme');
     if (saved === 'light') {
       document.documentElement.setAttribute('data-theme', 'light');
-      document.getElementById('themeBtn').innerHTML = '<i class="fa-solid fa-moon"></i>';
+      const btn = document.getElementById('themeBtn');
+      if (btn) btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
     }
   })();
 
@@ -1458,13 +1476,16 @@ Bahasa            : <span class="str">"Indonesia"</span></pre>
   });
 
   // Filter search results
-  document.getElementById('searchInput').addEventListener('input', function() {
-    const q = this.value.toLowerCase();
-    document.querySelectorAll('.search-result-item').forEach(item => {
-      const text = item.textContent.toLowerCase();
-      item.style.display = text.includes(q) ? '' : 'none';
+  const searchInputEl = document.getElementById('searchInput');
+  if (searchInputEl) {
+    searchInputEl.addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      document.querySelectorAll('.search-result-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? '' : 'none';
+      });
     });
-  });
+  }
 
   // ═════════════════════════════════════════
   // COPY CODE
@@ -1561,6 +1582,133 @@ Bahasa            : <span class="str">"Indonesia"</span></pre>
   function closeRedirectModal() {
     document.getElementById('mangaRedirectModal').classList.remove('open');
   }
+
+  // ═════════════════════════════════════════
+  // AUTO-FETCH LATEST GITHUB RELEASE VERSION
+  // ═════════════════════════════════════════
+  const REPO_OWNER = 'Renn-devBI';
+  const REPO_NAME = 'ShiroMangaL-WEB';
+  const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest`;
+  const CACHE_KEY = 'shiromanga_latest_release_cache';
+  const CACHE_TTL = 10 * 60 * 1000; // 10 menit cache untuk efisiensi rate limit
+
+  function formatDate(isoStr) {
+    if (!isoStr) return '';
+    try {
+      const d = new Date(isoStr);
+      return d.toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' });
+    } catch (e) {
+      return isoStr;
+    }
+  }
+
+  function formatBytes(bytes) {
+    if (!bytes || bytes <= 0) return '~15 MB';
+    const mb = bytes / (1024 * 1024);
+    return mb.toFixed(1) + ' MB';
+  }
+
+  function applyReleaseData(data) {
+    if (!data || !data.tag_name) return;
+    const version = data.tag_name;
+    const publishedDate = formatDate(data.published_at);
+    const releaseUrl = data.html_url || `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/latest`;
+
+    // Temukan asset APK jika ada
+    const apkAsset = Array.isArray(data.assets) ? data.assets.find(a => a.name && a.name.toLowerCase().endsWith('.apk')) : null;
+    const apkSize = apkAsset ? formatBytes(apkAsset.size) : '~15 MB';
+    const downloadUrl = apkAsset && apkAsset.browser_download_url
+      ? apkAsset.browser_download_url
+      : `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/latest/download/ShiroManga.apk`;
+
+    // 1. Sidebar Version
+    const sidebarVer = document.getElementById('sidebarVersion');
+    if (sidebarVer) sidebarVer.textContent = `${version} — Stable`;
+
+    // 2. Overview Version Badge
+    const overviewBadge = document.getElementById('overviewVersionBadge');
+    if (overviewBadge) {
+      overviewBadge.innerHTML = `<span class="dot"></span> <span id="overviewVersionText">APPS_NEW ${version} — Stable Release</span>`;
+    }
+
+    // 3. Overview Code Block Summary
+    const codeVer = document.getElementById('codeVersion');
+    if (codeVer) codeVer.textContent = version;
+    const codeApk = document.getElementById('codeApkSize');
+    if (codeApk) codeApk.textContent = apkSize;
+    const codeDate = document.getElementById('codeReleaseDate');
+    if (codeDate && publishedDate) codeDate.textContent = publishedDate;
+
+    // 4. Download Card
+    const dlVer = document.getElementById('dlCardVersion');
+    if (dlVer) dlVer.textContent = version;
+    const dlDate = document.getElementById('dlCardDate');
+    if (dlDate && publishedDate) dlDate.textContent = publishedDate;
+    const dlSize = document.getElementById('dlCardSize');
+    if (dlSize) dlSize.textContent = apkSize;
+    const dlBtn = document.getElementById('dlApkBtn');
+    if (dlBtn) dlBtn.href = downloadUrl;
+
+    // 5. Spesifikasi Table
+    const tableVer = document.getElementById('tableVersion');
+    if (tableVer) tableVer.textContent = version;
+    const tableDate = document.getElementById('tableReleaseDate');
+    if (tableDate && publishedDate) tableDate.textContent = publishedDate;
+    const tableSize = document.getElementById('tableApkSize');
+    if (tableSize) tableSize.textContent = apkSize;
+
+    // 6. Redirect Modal APK Link
+    const redirectApk = document.getElementById('redirectApkLink');
+    if (redirectApk) redirectApk.href = downloadUrl;
+
+    // 7. Dynamic Changelog Box
+    const changelogBox = document.getElementById('latestChangelogBox');
+    const changelogContent = document.getElementById('latestChangelogContent');
+    const changelogTag = document.getElementById('changelogVersionTag');
+    const changelogLink = document.getElementById('latestChangelogLink');
+    if (changelogBox && data.body && data.body.trim().length > 0) {
+      changelogBox.style.display = 'block';
+      if (changelogTag) changelogTag.textContent = version;
+      if (changelogContent) changelogContent.textContent = data.body.trim();
+      if (changelogLink) changelogLink.href = releaseUrl;
+    }
+  }
+
+  async function fetchLatestRelease() {
+    // 1. Cek cache localStorage terlebih dahulu untuk instant render & pencegahan limit API
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed.data) {
+          applyReleaseData(parsed.data);
+          // Jika cache masih baru (< 10 menit), tidak perlu request API lagi
+          if (Date.now() - parsed.timestamp < CACHE_TTL) {
+            return;
+          }
+        }
+      }
+    } catch (e) {}
+
+    // 2. Fetch data release terbaru langsung dari GitHub API
+    try {
+      const res = await fetch(API_URL, {
+        headers: { 'Accept': 'application/vnd.github.v3+json' }
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      applyReleaseData(data);
+
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
+      } catch (e) {}
+    } catch (err) {
+      console.warn('Auto release detection fallback:', err);
+    }
+  }
+
+  // Jalankan fetch otomatis saat halaman dibuka
+  fetchLatestRelease();
 </script>
 </body>
 </html>
